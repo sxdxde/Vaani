@@ -168,7 +168,7 @@ st.set_page_config(page_title="Vaani — वाणी", page_icon="✨", layout=
 # ---------------------------------------------------------------------------
 
 with st.sidebar:
-    with st.expander("Admin"):
+    with st.expander("Admin", expanded=False):
         pwd = st.text_input("Password", type="password", key="admin_pwd")
         if pwd:
             if pwd == ADMIN_PASSWORD:
@@ -177,22 +177,22 @@ with st.sidebar:
                 st.session_state["admin_auth"] = False
                 st.error("Incorrect password")
 
-    if st.session_state.get("admin_auth"):
-        st.sidebar.subheader("Corpus viewer")
-        df = load_corpus()
-        if df is not None:
-            total, feedback, edits = get_metrics()
-            st.sidebar.caption(f"{total} rewrites · {feedback} feedback · {edits} edits")
-            st.sidebar.dataframe(df, use_container_width=True)
-            with open(CORPUS_PATH, "rb") as f:
-                st.sidebar.download_button(
-                    label="Download vaani_corpus.csv",
-                    data=f,
-                    file_name="vaani_corpus.csv",
-                    mime="text/csv",
-                )
-        else:
-            st.sidebar.info("No corpus data yet.")
+        if st.session_state.get("admin_auth"):
+            st.subheader("Corpus viewer")
+            df = load_corpus()
+            if df is not None:
+                total, feedback, edits = get_metrics()
+                st.caption(f"{total} rewrites · {feedback} feedback · {edits} edits")
+                st.dataframe(df, use_container_width=True)
+                with open(CORPUS_PATH, "rb") as f:
+                    st.download_button(
+                        label="Download vaani_corpus.csv",
+                        data=f,
+                        file_name="vaani_corpus.csv",
+                        mime="text/csv",
+                    )
+            else:
+                st.info("No corpus data yet.")
 
 st.title("Vaani — वाणी")
 st.caption("Your professional voice in English")
@@ -251,6 +251,9 @@ if rewrite_clicked:
                     max_tokens=1024,
                 )
                 st.session_state["vaani_output"] = response.choices[0].message.content.strip()
+                # snapshot exactly what was sent — user may edit the box before rating
+                st.session_state["submitted_input"] = user_input
+                st.session_state["submitted_context"] = context
                 # reset feedback state for each new rewrite
                 st.session_state["feedback_done"] = False
                 st.session_state["show_edit_area"] = False
@@ -277,8 +280,8 @@ if st.session_state.get("vaani_output"):
         with col1:
             if st.button("✅ Looks good", use_container_width=True):
                 save_to_corpus(
-                    original_input=st.session_state.get("user_input", ""),
-                    context_selected=st.session_state.get("context", ""),
+                    original_input=st.session_state.get("submitted_input", ""),
+                    context_selected=st.session_state.get("submitted_context", ""),
                     vaani_output=st.session_state["vaani_output"],
                     user_rating="good",
                 )
@@ -300,8 +303,8 @@ if st.session_state.get("vaani_output"):
             )
             if st.button("Submit my version ✨", type="primary"):
                 save_to_corpus(
-                    original_input=st.session_state.get("user_input", ""),
-                    context_selected=st.session_state.get("context", ""),
+                    original_input=st.session_state.get("submitted_input", ""),
+                    context_selected=st.session_state.get("submitted_context", ""),
                     vaani_output=st.session_state["vaani_output"],
                     user_rating="needs_change",
                     user_edited_version=user_edit,
