@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vaani — वाणी</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <div class="logo-icon">✨</div>
+        <div>
+          <h1 class="title">Vaani <span class="hindi">— वाणी</span></h1>
+          <p class="subtitle">Your professional voice in English</p>
+        </div>
+      </div>
+      <button class="settings-btn" id="settings-btn" title="API Key Settings">⚙️</button>
+    </header>
+
+    <!-- API Key Banner (shown when key is missing) -->
+    <div class="api-banner" id="api-banner" style="display:none;">
+      <span>🔑 Add your Groq API key to get started</span>
+      <button class="link-btn" id="open-settings-link">Set key</button>
+    </div>
+
+    <!-- Settings Panel -->
+    <div class="settings-panel" id="settings-panel" style="display:none;">
+      <label class="field-label" for="api-key-input">Groq API Key</label>
+      <div class="key-row">
+        <input type="password" id="api-key-input" class="key-input" placeholder="gsk_..." />
+        <button class="save-btn" id="save-key-btn">Save</button>
+      </div>
+      <p class="settings-hint">Get a free key at <a href="https://console.groq.com" target="_blank">console.groq.com</a></p>
+    </div>
+
+    <!-- Main Form -->
+    <div class="form-body" id="form-body">
+
+      <div class="field">
+        <label class="field-label" for="user-input">Paste your Hinglish or code-switched text</label>
+        <textarea
+          id="user-input"
+          class="text-area"
+          placeholder="Hi sir, mujhe is project mein thoda aur time chahiye, deadline kal hai but kuch issues aa gaye hain"
+          maxlength="1000"
+          rows="5"
+        ></textarea>
+        <div class="char-count"><span id="char-count">0</span> / 1000</div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="context-select">Context</label>
+        <select id="context-select" class="select">
+          <option value="">General (any text)</option>
+          <option value="email">Email to manager / HR</option>
+          <option value="linkedin">LinkedIn post or bio</option>
+          <option value="whatsapp">WhatsApp to colleague</option>
+          <option value="job">Job application / cover note</option>
+        </select>
+      </div>
+
+      <button class="rewrite-btn" id="rewrite-btn">
+        <span id="btn-label">Rewrite with Vaani ✨</span>
+        <span id="btn-spinner" class="spinner" style="display:none;"></span>
+      </button>
+
+    </div>
+
+    <!-- Output Section -->
+    <div class="output-section" id="output-section" style="display:none;">
+      <div class="output-header">
+        <span class="output-title">Vaani's rewrite ✨</span>
+        <button class="copy-btn" id="copy-btn">📋 Copy</button>
+      </div>
+      <div class="output-box" id="output-box"></div>
+
+      <!-- Feedback -->
+      <div class="feedback-row" id="feedback-row">
+        <span class="feedback-label">How did Vaani do?</span>
+        <button class="feedback-btn good" id="feedback-good">✅ Looks good</button>
+        <button class="feedback-btn bad" id="feedback-bad">✏️ I'd change this</button>
+      </div>
+
+      <div class="edit-area" id="edit-area" style="display:none;">
+        <label class="field-label" for="user-edit">Your preferred version</label>
+        <textarea id="user-edit" class="text-area" rows="4"></textarea>
+        <button class="rewrite-btn submit-btn" id="submit-edit-btn">Submit my version ✨</button>
+      </div>
+
+      <div class="feedback-done" id="feedback-done" style="display:none;">
+        🙏 Thanks for the feedback!
+      </div>
+    </div>
+
+    <!-- Error -->
+    <div class="error-box" id="error-box" style="display:none;"></div>
+
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
