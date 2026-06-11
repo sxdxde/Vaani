@@ -82,4 +82,4 @@ Open the **Admin** expander in the sidebar and enter the password to view collec
 
 ---
 
-🇮🇳 Vaani is an early prototype. Your rewrites help build better Indian professional AI.
+🇮🇳 Vaani is an early prototype. Your rewrites help build better Indian professional AI. Will be released soon!
