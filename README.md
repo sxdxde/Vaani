@@ -51,7 +51,7 @@ The app opens in your browser at `http://localhost:8501`.
 1. Paste your Hinglish or code-switched text (up to 1000 characters).
 2. Pick a **context** so Vaani knows the tone and audience.
 3. Click **Rewrite with Vaani** — the text is sent to the Groq API with a system prompt tuned for fluent Indian professional English.
-4. Copy the result, or leave feedback (✅ *Looks good* / ✏️ *I'd change this*).
+4. Copy the result, or leave feedback (✅ *Looks good* / ✏️ *I'd change this*)
 
 ## Data & corpus collections
 
